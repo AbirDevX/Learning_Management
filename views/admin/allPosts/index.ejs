@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../layout/head.ejs')%>
+  <body
+    class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed"
+  >
+    <div class="wrapper">
+      <!-- Preloader -->
+      <div
+        class="preloader flex-column justify-content-center align-items-center"
+      >
+        <img
+          class="animation__wobble"
+          src="/dist/img/AdminLTELogo.png"
+          alt="AdminLTELogo"
+          height="60"
+          width="60"
+        />
+      </div>
+
+      <!-- Navbar -->
+      <%- include('../layout/navBar.ejs')%>
+      <!-- /.navbar -->
+
+      <!-- Main Sidebar Container -->
+      <%- include('../layout/sidebar.ejs')%>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <h1 class="m-0">POSTS</h1>
+              <div class="col-sm-6 mx-auto">
+                <% if( flashMsg && flashMsg?.success?.length > 0) { %>
+                <div class="alert alert-success mx-" role="alert">
+                  <%= flashMsg.success %>
+                </div>
+                <% } %> <% if(flashMsg && flashMsg?.error?.length > 0) { %>
+                <div class="alert alert-danger mx-" role="alert">
+                  <%= flashMsg.error %>
+                </div>
+                <% } %> <% if(flashMsg && flashMsg?.msg?.length > 0) { %>
+                <div class="alert alert-warning mx-" role="alert">
+                  <%= flashMsg.msg %>
+                </div>
+                <% } %>
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        <!-- Main content -->
+        <section class="content">
+          <div class="container-fluid">
+            <div class="card-body p-0">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">ID</th>
+                    <th>TITLE</th>
+                    <th>SUB-TITLE</th>
+                    <th>LIKES</th>
+                    <th>STATUS</th>
+                    <th style="width: 40px">Image</th>
+                  </tr>
+                </thead>
+                <% let id=0 %>
+                <tbody>
+                  <% if(posts && posts.length > 0){ %> <% for(let post of
+                  posts){ %>
+                  <tr class="">
+                    <td><%= ++id %></td>
+                    <td><%= post?.title %></td>
+                    <td>
+                      <div class=""><%= post?.subTitle%></div>
+                    </td>
+                    <td><%= post?.like %></td>
+                    <td>
+                      <div
+                        class="spinner-border hideSpinner <%= post?._id %>"
+                        id="loader"
+                        role="status"
+                      >
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                      <% if(post?.isActive){ %>
+                      <a
+                        id="<%= post?._id %>"
+                        class="bg-danger text-center btn text-xs"
+                      >
+                        To Disable
+                      </a>
+                      <% } %> <% if(!post?.isActive){%>
+                      <a
+                        id="<%= post?._id %>"
+                        class="bg-success text-center btn text-xs"
+                      >
+                        To Active
+                      </a>
+                      <% } %>
+                    </td>
+                    <td>
+                      <img
+                        class="img-fluid rounded-lg"
+                        src="<%= post?.banner %>"
+                        alt="poster"
+                      />
+                    </td>
+                  </tr>
+                  <script>
+                    $(document).ready(function () {
+                      $("#<%= post._id %>").on("click", function (element) {
+                        $(".<%= post._id %>").addClass("showSpinner");
+                        $("#<%= post._id %>").hide();
+                        $.ajax({
+                          url: "/admin/activate-post/<%= post._id %>",
+                          method: "GET",
+                          success: function ({ data }) {
+                            $(".<%= post._id %>").removeClass("showSpinner");
+                            $("#<%= post._id %>").show();
+                            location.reload();
+                            if (data.isActive) {
+                              // element.currentTarget.className =
+                              //   "bg-danger text-center btn text-xs";
+                              // element.currentTarget.innerText = "Disable";
+                            } else {
+                              // element.currentTarget.className =
+                              //   "bg-success text-center btn text-xs";
+                              // element.currentTarget.innerText = "Active";
+                            }
+                          },
+                          error: function (error) {
+                            $(".<%= post._id %>").removeClass("showSpinner");
+                            $("#<%= post._id %>").show();
+                            console.log(error);
+                          },
+                        });
+                      });
+                    });
+                  </script>
+                  <% } %> <% } %>
+                </tbody>
+              </table>
+              <% if(posts && posts.length < 1){ %>
+              <h3
+                class="d-flex justify-content-center align-content-center my-2 py-2"
+              >
+                Post found !
+              </h3>
+              <% } %>
+            </div>
+          </div>
+          <!--/. container-fluid -->
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+
+      <!-- Control Sidebar -->
+      <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+      </aside>
+      <!-- /.control-sidebar -->
+
+      <!-- Main Footer -->
+      <%- include('../layout/footer.ejs')%>
+    </div>
+  </body>
+</html>

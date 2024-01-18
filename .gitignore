@@ -1,0 +1,6 @@
+
+node_modules
+.pro.env
+.dev.env
+group_project.zip
+package-lock.json

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../layout/head.ejs')%>
+  <body
+    class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed"
+  >
+    <div class="wrapper">
+      <!-- Preloader -->
+      <div
+        class="preloader flex-column justify-content-center align-items-center"
+      >
+        <img
+          class="animation__wobble"
+          src="/dist/img/AdminLTELogo.png"
+          alt="AdminLTELogo"
+          height="60"
+          width="60"
+        />
+      </div>
+
+      <!-- Navbar -->
+      <%- include('../layout/navBar.ejs')%>
+      <!-- /.navbar -->
+
+      <!-- Main Sidebar Container -->
+      <%- include('../layout/sidebar.ejs')%>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1 class="m-0">COURSES</h1>
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        <!-- Main content -->
+        <section class="content">
+          <div class="container-fluid">
+            <div class="card-body p-0">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">ID</th>
+                    <th>TROPIC</th>
+                    <th>PRICE</th>
+                    <th>DURATION</th>
+                    <th>STATUS</th>
+                    <th style="width: 40px">Image</th>
+                  </tr>
+                </thead>
+                <% let id=0 %>
+                <tbody>
+                  <% if(courses && courses.length > 0){ %> <% for(let course of
+                  courses){ %>
+                  <tr class="">
+                    <td><%= ++id %></td>
+                    <td><%= course?.tropic %></td>
+                    <td>
+                      <div class=""><%= course?.price%></div>
+                    </td>
+                    <td><%= course?.courseDuration %></td>
+                    <td>
+                      <div
+                        class="spinner-border hideSpinner <%= course?._id %>"
+                        id="loader"
+                        role="status"
+                      >
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                      <% if(course?.isActive){ %>
+                      <a
+                        id="<%= course?._id %>"
+                        class="bg-danger text-center btn text-xs"
+                      >
+                        To Disable
+                      </a>
+                      <% } %> <% if(!course?.isActive){%>
+                      <a
+                        id="<%= course?._id %>"
+                        class="bg-success text-center btn text-xs"
+                      >
+                        To Active
+                      </a>
+                      <% } %>
+                    </td>
+                    <td>
+                      <img
+                        class="img-fluid rounded-lg"
+                        src="<%= course?.banner %>"
+                        alt="poster"
+                      />
+                    </td>
+                  </tr>
+                  <script>
+                    $(document).ready(function () {
+                      $("#<%= course._id %>").on("click", function (element) {
+                        $(".<%= course._id %>").addClass("showSpinner");
+                        $("#<%= course._id %>").hide();
+                        $.ajax({
+                          url: "/admin/activate-course/<%= course._id %>",
+                          method: "GET",
+                          success: function ({ data }) {
+                            $(".<%= course._id %>").removeClass("showSpinner");
+                            $("#<%= course._id %>").show();
+                            location.reload();
+                            if (data.isActive) {
+                              // element.currentTarget.className =
+                              //   "bg-danger text-center btn text-xs";
+                              // element.currentTarget.innerText = "Disable";
+                            } else {
+                              // element.currentTarget.className =
+                              //   "bg-success text-center btn text-xs";
+                              // element.currentTarget.innerText = "Active";
+                            }
+                          },
+                          error: function (error) {
+                            $(".<%= course._id %>").removeClass("showSpinner");
+                            $("#<%= course._id %>").show();
+                            console.log(error);
+                          },
+                        });
+                      });
+                    });
+                  </script>
+                  <% } %> <% } %>
+                </tbody>
+              </table>
+              <% if(courses && courses.length < 1){ %>
+              <h3
+                class="d-flex justify-content-center align-content-center my-2 py-2"
+              >
+                No data found!
+              </h3>
+              <% } %>
+            </div>
+          </div>
+          <!--/. container-fluid -->
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+
+      <!-- Control Sidebar -->
+      <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+      </aside>
+      <!-- /.control-sidebar -->
+
+      <!-- Main Footer -->
+      <%- include('../layout/footer.ejs')%>
+    </div>
+  </body>
+</html>

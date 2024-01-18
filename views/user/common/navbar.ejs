@@ -1,0 +1,67 @@
+<section id="mu-menu">
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- FOR MOBILE VIEW COLLAPSED BUTTON -->
+        <button
+          type="button"
+          class="navbar-toggle collapsed"
+          data-toggle="collapse"
+          data-target="#navbar"
+          aria-expanded="false"
+          aria-controls="navbar"
+        >
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <!-- LOGO -->
+        <!-- TEXT BASED LOGO -->
+        <a class="navbar-brand" href="index.html"
+          ><i class="fa fa-university"></i><span>Varsity</span></a
+        >
+        <!-- IMG BASED LOGO  -->
+        <!-- <a class="navbar-brand" href="index.html"><img src="assets/img/logo.png" alt="logo"></a> -->
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
+          <li class="<%= url === '/' ? 'active' : '' %>"><a href="/">Home</a></li>
+          <li class="dropdown <%= url === '/courses' ? 'active' : '' %>">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+              >Course <span class="fa fa-angle-down"></span
+            ></a>
+            <ul class="dropdown-menu" role="menu">
+              <li class="<%= url === '/courses' ? 'active' : '' %>"><a href="/courses">Course All</a></li>
+              <li><a href="course-detail.html">Course Detail</a></li>
+            </ul>
+          </li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li class="dropdown <%= url === '/posts' ? 'active' : '' %>">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+              >Blog <span class="fa fa-angle-down"></span
+            ></a>
+            <ul class="dropdown-menu" role="menu">
+              <li class="<%= url === '/posts' ? 'active' : '' %>"><a href="/posts">Blog Archive</a></li>
+            </ul>
+          </li>
+          <li class=" <%= url === '/contact-us' ? 'active' : '' %>"><a href="contact.html">Contact</a></li>
+          <% if(!user){%>
+          <li class="<%= url === '/login' ? 'active' : '' %>"><a href="/login"> Login</a></li>
+          <li class="<%= url === '/register' ? 'active' : '' %>"><a href="/register">Register</a></li>
+          <% } %>
+          <li class="">
+            <img
+              class="animation__wobble"
+              src="<%= user && user?.avatar %>"
+              alt="AdminLTELogo"
+              height="30"
+              width="30"
+            />
+          </li>
+        </ul>
+      </div>
+      <!--/.nav-collapse -->
+    </div>
+  </nav>
+</section>

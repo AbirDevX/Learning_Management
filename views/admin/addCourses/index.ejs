@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../layout/head.ejs')%>
+  <body
+    class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed"
+  >
+    <div class="wrapper">
+      <!-- Preloader -->
+      <div
+        class="preloader flex-column justify-content-center align-items-center"
+      >
+        <img
+          class="animation__wobble"
+          src="/dist/img/AdminLTELogo.png"
+          alt="AdminLTELogo"
+          height="60"
+          width="60"
+        />
+      </div>
+
+      <!-- Navbar -->
+      <%- include('../layout/navBar.ejs')%>
+      <!-- /.navbar -->
+
+      <!-- Main Sidebar Container -->
+      <%- include('../layout/sidebar.ejs')%>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1 class="m-0">Add-Courses</h1>
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        <!-- Main content -->
+        <section class="content">
+          <div class="container-fluid">
+            <div class="card-body p-0">
+                <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">Add Course</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form action="/admin/add-courses" method="post" enctype="multipart/form-data">
+                      <div class="card-body">
+                        <!-- Tropic ST -->
+                        <div class="form-group">
+                          <label for="exampleInputTropic">Course Tropic</label>
+                          <input type="text" class="form-control" id="exampleInputTropic" name="tropic" 
+                          value="<%= value && value.tropic %>" placeholder="Enter Tropic">
+                          <p class="text-danger text-sm">
+                            <% if(error && error?.tropic){ %> <%= error.tropic?.message %>
+                            <% } %>
+                          </p>
+                        </div>
+                        <!-- Tropic End -->
+                        <!-- description ST -->
+                        <div class="form-group">
+                          <label for="exampleInputdescription">Course description</label>
+                          <input type="text" <input value="<%= value && value.description %>"  class="form-control" id="exampleInputdescription" name="description" placeholder="Enter description">
+                          <p class="text-danger text-sm">
+                            <% if(error && error?.description){ %> <%= error.description?.message %>
+                            <% } %>
+                          </p>
+                        </div>
+                        <!-- description End -->
+                        <!-- price / courseDuration ST -->
+                        <div class="row">
+                          <div class="col-3">
+                            <label for="exampleInputprice">Course price</label>
+                            <input  type="number" class="form-control" id="exampleInputprice" name="price" value="<%= value && value.price ? value.price : '' %>" placeholder="Enter price">
+                            <p class="text-danger text-sm">
+                              <% if(error && error?.price){ %> <%= error.price?.message %>
+                              <% } %>
+                            </p>
+                          </div>
+                          <div class="col-4">
+                            <label for="exampleInputcourseDuration">Course courseDuration</label>
+                            <!-- <input type="text" class="form-control" id="exampleInputcourseDuration" name="courseDuration" placeholder="2 month"> -->
+                            <select  id="exampleInputcourseDuration" name="courseDuration" class="custom-select">
+                              <option required>3 Month</option>
+                              <option>6 Month</option>
+                            </select>
+                            <p class="text-danger text-sm">
+                              <% if(error && error?.courseDuration){ %> <%= error.courseDuration?.message %>
+                              <% } %>
+                            </p>
+                          </div>
+                        </div>
+                        <!-- price /courseDuration End -->
+                        <!-- Schedule ST -->
+                        <br>
+                        <div class="row">
+                          <div class="col-3">
+                            <label for="exampleInputprice">Schedule Days</label>
+                            <div class="custom-control custom-checkbox">
+                              <input class="custom-control-input" name="scheduleDay1" type="checkbox" id="customCheckboxMonday" value="Monday">
+                              <label for="customCheckboxMonday" class="custom-control-label">Monday</label>
+                            </div>
+                            <p class="text-danger text-sm">
+                              <% if(error && error?.scheduleDay1){ %> <%= error.scheduleDay1?.message %>
+                              <% } %>
+                            </p>
+                            <div class="custom-control custom-checkbox">
+                              <input class="custom-control-input" name="scheduleDay2" type="checkbox" id="customCheckboxWednesday" value="Friday">
+                              <label for="customCheckboxWednesday" class="custom-control-label">Wednesday</label>
+                            </div>
+                            <p class="text-danger text-sm">
+                              <% if(error && error?.scheduleDay2){ %> <%= error.scheduleDay2?.message %>
+                              <% } %>
+                            </p>
+                            <div class="custom-control custom-checkbox">
+                              <input class="custom-control-input" name="scheduleDay3" type="checkbox" id="customCheckboxFriday" value="Friday">
+                              <label for="customCheckboxFriday" class="custom-control-label">Friday</label>
+                            </div>
+                            <p class="text-danger text-sm">
+                              <% if(error && error?.scheduleDay3){ %> <%= error.scheduleDay3?.message %>
+                              <% } %>
+                            </p>
+                          </div>
+                          <div class="col-4">
+                            <label for="exampleInputcourseTime">Schedule Time</label>
+                            <select name="scheduleTime" id="exampleInputcourseTime" class="custom-select">
+                              <option required>10.00 to 12.00</option>
+                              <option>2.00 to 4.00</option>
+                            </select>
+                            
+                          </div>
+                          <div class="col-5">
+                            <label for="exampleInputcourseLocation">Schedule Location</label>
+                            <input type="text" name="scheduleLocation" class="form-control" id="exampleInputcourseLocation" name="scheduleLocation" value="<%= value && value.scheduleLocation %>" placeholder="Kolkata, new-town">
+                            <p class="text-danger text-sm">
+                              <% if(error && error?.scheduleLocation){ %> <%= error.scheduleLocation?.message %>
+                              <% } %>
+                            </p>
+                          </div>
+                        </div>
+                        <br>
+                        <!-- Schedule End -->
+                        <div class="form-group">
+                          <label for="exampleInputFile">Banner</label>
+                          <div class="input-group">
+                            <div class="custom-file">
+                              <input type="file" required name="banner" class="custom-file-input" id="exampleInputFile">
+                              <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                            </div>
+                            <div class="input-group-append">
+                              <span class="input-group-text">Upload</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- /.card-body -->
+      
+                      <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      </div>
+                    </form>
+                  </div>
+            </div>
+          </div>
+          <!--/. container-fluid -->
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+
+      <!-- Control Sidebar -->
+      <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+      </aside>
+      <!-- /.control-sidebar -->
+
+      <!-- Main Footer -->
+      <%- include('../layout/footer.ejs')%>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Client Message's</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+      <% if(data.length > 0){ %>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th style="width: 10px">ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th style="width: 40px">Subject</th>
+            <th style="width: 40px">Message</th>
+            <th style="width: 40px">Action</th>
+          </tr>
+        </thead>
+        <% let id=0 %>
+        <tbody>
+          <% for(let item of data){ %>
+          <tr class="">
+            <td><%= ++id %></td>
+            <td><%= item?.name %></td>
+            <td><%= item?.email %></td>
+            <td><%= item?.subject %></td>
+            <td><%= item?.message %></td>
+            <td>
+              <a
+                class="bg-danger text-center btn"
+                href="/admin/contact-us/<%= item._id %>"
+                >Delete</a
+              >
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+      <% }else{ %>
+      <h3 class="d-flex justify-content-center align-content-center my-2 py-2">
+        No data found!
+      </h3>
+      <% } %>
+    </div>
+    <!-- /.card-body -->
+  </div>
+</div>
